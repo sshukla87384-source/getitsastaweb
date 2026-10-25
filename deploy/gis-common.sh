@@ -234,7 +234,22 @@ GIT_SRC=$OPT/src
 DEPLOY_KEY=$ETC/deploy_key
 KNOWN_HOSTS=$ETC/known_hosts
 git_ssh_cmd() { printf 'ssh -i %s -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=%s' "$DEPLOY_KEY" "$KNOWN_HOSTS"; }
-gitx() { GIT_SSH_COMMAND=$(git_ssh_cmd) GIT_TERMINAL_PROMPT=0 git -c safe.directory="$GIT_SRC" "$@"; }
+# Deploy key / GIT_SSH_COMMAND SIRF git@ / ssh:// URLs ke liye. https (public repo) = plain git.
+origin_url() { git -c safe.directory="$GIT_SRC" -C "$GIT_SRC" config --get remote.origin.url 2>/dev/null || true; }
+gitx() {
+  local u=${GIT_URL_CTX:-}
+  [[ -n $u ]] || u=$(origin_url)
+  if url_is_ssh "$u"; then GIT_SSH_COMMAND=$(git_ssh_cmd) GIT_TERMINAL_PROMPT=0 git -c safe.directory="$GIT_SRC" "$@"
+  else GIT_TERMINAL_PROMPT=0 git -c safe.directory="$GIT_SRC" "$@"; fi
+}
+# https://github.com/U/R(.git) == git@github.com:U/R.git == ssh://git@github.com/U/R → "github.com/u/r"
+repo_id() {
+  local u=${1,,}
+  u=${u%/}; u=${u%.git}
+  u=${u#https://}; u=${u#http://}; u=${u#ssh://}; u=${u#git@}; u=${u#*@}
+  u=${u/://}
+  printf '%s' "$u"
+}
 gitc() { gitx -C "$GIT_SRC" "$@"; }
 url_is_ssh() { [[ $1 == git@* || $1 == ssh://* ]]; }
 url_has_creds() { [[ $1 =~ ^https?://[^/]*@ ]]; }

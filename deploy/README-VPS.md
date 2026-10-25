@@ -60,28 +60,28 @@ hPanel → Domains → DNS records mein **A** records daalo: `@`, `www`, `pay` �
 ssh root@1.2.3.4
 ```
 
-### Step 2: Deploy key banao (repo private hai)
+### Step 2: Repo clone (public repo — koi key nahi chahiye)
 
 ```bash
 sudo apt-get install -y --no-upgrade git          # agar git nahi hai
-sudo mkdir -p /etc/gis && sudo chmod 750 /etc/gis
-sudo ssh-keygen -t ed25519 -N "" -f /etc/gis/deploy_key -C gis-deploy
-sudo chmod 600 /etc/gis/deploy_key
-sudo cat /etc/gis/deploy_key.pub
+sudo git clone https://github.com/sshukla87384-source/getitsastaweb.git /opt/gis/src
 ```
 
-Jo line print ho (`ssh-ed25519 AAAA... gis-deploy`), use copy karo, phir GitHub par: repo → **Settings → Deploy keys → Add deploy key**. Title `gis-vps` rakho, key paste karo. **"Allow write access" tick MAT karo**, phir Add key.
+`/opt/gis/src` pehle se isi repo ka clone ho to dobara clone mat karo. Installer use reuse karta hai (fetch + checkout).
 
-### Step 3: Repo clone (sirf is key se; aapka `~/.ssh` aur global git config nahi chhuta)
+<details><summary>Repo kabhi PRIVATE ho jaye to (deploy key)</summary>
 
 ```bash
-sudo GIT_SSH_COMMAND="ssh -i /etc/gis/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/etc/gis/known_hosts" \
-  git clone git@github.com:USER/REPO.git /opt/gis/src
+sudo mkdir -p /etc/gis && sudo chmod 750 /etc/gis
+sudo ssh-keygen -t ed25519 -N "" -f /etc/gis/deploy_key -C gis-deploy && sudo chmod 600 /etc/gis/deploy_key
+sudo cat /etc/gis/deploy_key.pub     # → GitHub: repo → Settings → Deploy keys → Add (write access OFF)
+cd /opt/gis/src && sudo git remote set-url origin git@github.com:sshukla87384-source/getitsastaweb.git
 ```
 
-(Short raasta: step 2 aur 3 chhod ke seedha `install.sh --git git@github.com:USER/REPO.git` bhi chala sakte ho. Script key banayegi, public key dikhayegi, aur Enter ka intezaar karegi.)
+Ya seedha `install.sh --git git@github.com:USER/REPO.git` chalao. Script key banayegi aur steps dikhayegi. Key sirf `git@` URLs ke liye use hoti hai; aapka `~/.ssh` aur global git config nahi chhuta.
+</details>
 
-### Step 4: Pehle check karo
+### Step 3: Pehle check karo
 
 ```bash
 sudo bash /opt/gis/src/deploy/install.sh --check --domain getitsasta.com
@@ -92,7 +92,7 @@ Isme dikhega:
 - ports, Node aur DNS;
 - **kaunsi purani nginx files `getitsasta.com` use kar rahi hain**, aur `--take-over` unke saath kya karega. Agar woh REFUSE karega to wajah bhi dikhegi.
 
-### Step 5: Dry-run (kuch nahi badlega)
+### Step 4: Dry-run (kuch nahi badlega)
 
 ```bash
 sudo bash /opt/gis/src/deploy/install.sh --domain getitsasta.com --email you@gmail.com --take-over --dry-run
@@ -100,7 +100,7 @@ sudo bash /opt/gis/src/deploy/install.sh --domain getitsasta.com --email you@gma
 
 Isme poora plan dikhega: packages, files, ports, proxy mode, firewall, aur purani site ki kaunsi file disable hogi.
 
-### Step 6: Install + purani site ki jagah lena
+### Step 5: Install + purani site ki jagah lena
 
 ```bash
 sudo bash /opt/gis/src/deploy/install.sh --domain getitsasta.com --email you@gmail.com --take-over
@@ -119,7 +119,7 @@ Switch ke waqt ~1 minute HTTPS ka gap ho sakta hai, jab tak naya certificate ban
 
 Bina `--take-over` ke, agar domain pehle se kisi config mein hai to installer ruk jaata hai aur `--take-over` lagane ko kehta hai.
 
-### Step 7: Verify
+### Step 6: Verify
 
 ```bash
 sudo gis-update status                                    # dono apps: active, health, commit
@@ -131,7 +131,7 @@ sudo nginx -t                                             # successful
 
 Browser mein `https://getitsasta.com/admin/` aur `https://pay.getitsasta.com/admin/` kholo. Passwords summary mein dikhe the, aur `sudo cat /root/gis-credentials.txt` mein bhi hain. Login karke password badlo.
 
-### Step 8: Kuch gadbad? Purani site wapas (ek command)
+### Step 7: Kuch gadbad? Purani site wapas (ek command)
 
 ```bash
 sudo gis-update restore-old-site          # -y = bina sawaal
@@ -233,6 +233,6 @@ Pay ke liye sab jagah `pay.getitsasta.com` → port 3100. Exact text `/etc/gis/p
 | `502 Bad Gateway` | `journalctl -u gis-store -n 50` dekho, phir `sudo systemctl restart gis-store` |
 | Update ke baad auto-rollback | `journalctl -u gis-store -n 100` dekho. Commit theek karke push karo, phir `gis-update pull` |
 | "deploy REFUSED: .env / .db" | `git rm --cached store/.env` karo, `.gitignore` mein daalo, push karo |
-| `git fetch fail` | GitHub par deploy key hai? Test: `sudo GIT_SSH_COMMAND="ssh -i /etc/gis/deploy_key" git ls-remote git@github.com:USER/REPO.git` |
+| `git fetch fail` | Internet check karo: `git ls-remote https://github.com/sshukla87384-source/getitsastaweb.git HEAD`. Private repo (git@ URL) ho to GitHub par deploy key chahiye |
 | Port 3000 busy | Installer apne aap 33xx port leta hai. Dekho: `cat /etc/gis/ports` |
 | Admin login nahi hota | HTTPS se kholo, http se nahi (production cookies `Secure` hain) |

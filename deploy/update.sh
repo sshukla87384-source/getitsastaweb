@@ -76,8 +76,8 @@ cmd_pull() {
   branch=$(conf_get "$CONF_FILE" GIT_BRANCH); branch=${branch:-main}
   ref=${ref:-$branch}
 
-  step "GitHub fetch ($(gitc remote get-url origin 2>/dev/null))"
-  gitc fetch -q --prune --tags origin || die "git fetch fail — internet? GitHub par deploy key ($DEPLOY_KEY.pub) hai?"
+  step "GitHub fetch ($(origin_url))"
+  gitc fetch -q --prune --tags origin || die "git fetch fail — internet? (private git@ repo ho to GitHub par deploy key $DEPLOY_KEY.pub chahiye)"
   commit=$(git_resolve "$ref") || die "ref '$ref' nahi mila (branch / tag / commit sha do)"
   gitc checkout -q -f --detach "$commit"
   ok "$ref → ${commit:0:10}  $(gitc log -1 --format='%s (%an, %cr)' "$commit" | cut -c1-90)"
@@ -156,7 +156,9 @@ cmd_status() {
   local app cur prev dc origin='' branch behind
   branch=$(conf_get "$CONF_FILE" GIT_BRANCH); branch=${branch:-main}
   if [[ -d $GIT_SRC/.git ]]; then
-    timeout 20 env GIT_SSH_COMMAND="$(git_ssh_cmd)" GIT_TERMINAL_PROMPT=0 git -c safe.directory="$GIT_SRC" -C "$GIT_SRC" fetch -q origin 2>/dev/null \
+    local -a envs=(GIT_TERMINAL_PROMPT=0)
+    url_is_ssh "$(origin_url)" && envs+=("GIT_SSH_COMMAND=$(git_ssh_cmd)")
+    timeout 20 env "${envs[@]}" git -c safe.directory="$GIT_SRC" -C "$GIT_SRC" fetch -q origin 2>/dev/null \
       || warn "GitHub fetch nahi hua — local info dikha rahe hain"
     origin=$(git_resolve "$branch" 2>/dev/null || true)
     printf '%sgit%s    origin/%s = %s  %s\n' "$C_B" "$C_R" "$branch" "${origin:0:10}" "$(gitc log -1 --format=%s "$origin" 2>/dev/null | cut -c1-60)"

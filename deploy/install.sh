@@ -4,8 +4,10 @@
 #
 #  Store → https://<domain> (+www)      Pay → https://pay.<domain>
 #
-#  GitHub se (recommended):
-#    sudo bash install.sh --git git@github.com:USER/REPO.git [--branch main] --domain getitsasta.com --email you@x.com
+#  GitHub se (recommended, public repo = https, koi key nahi):
+#    sudo git clone https://github.com/sshukla87384-source/getitsastaweb.git /opt/gis/src
+#    sudo bash /opt/gis/src/deploy/install.sh --domain getitsasta.com --email you@x.com --take-over
+#  ya: install.sh --git https://github.com/USER/REPO.git [--branch main] ...   (private: git@github.com:USER/REPO.git → deploy key)
 #  Repo clone ke andar se (../store, ../pay):
 #    sudo bash deploy/install.sh --domain getitsasta.com --email you@x.com
 #  Zip se:
@@ -129,7 +131,7 @@ gather_inputs() {
   [[ -z $GIT_BRANCH ]] && GIT_BRANCH=$(conf_get "$CONF_FILE" GIT_BRANCH)
   REPO_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
   if [[ -z $GIT_URL && $REPO_ROOT == "$GIT_SRC" && -d $GIT_SRC/.git ]]; then
-    GIT_URL=$(gitc remote get-url origin 2>/dev/null || true)
+    GIT_URL=$(origin_url)
   fi
   if [[ $REPO_ROOT != "$OPT" && $REPO_ROOT != "$GIT_SRC" && -f $REPO_ROOT/store/package.json ]]; then IN_REPO=1; fi
   if [[ -n $GIT_URL ]] && url_has_creds "$GIT_URL"; then
@@ -522,12 +524,20 @@ ensure_deploy_key() {
 setup_git_source() {
   [[ ${SRC_KIND[store]} == git || ${SRC_KIND[pay]} == git ]] || return 0
   step "GitHub source: $GIT_URL"
-  ensure_deploy_key
+  GIT_URL_CTX=$GIT_URL
+  if url_is_ssh "$GIT_URL"; then ensure_deploy_key
+  else info "https repo — deploy key ki zarurat nahi"
+    if ((DRY == 0)) && [[ ! -d $GIT_SRC/.git ]] && ! gitx ls-remote -q "$GIT_URL" HEAD >/dev/null 2>&1; then
+      die "Repo nahi mila: $GIT_URL (URL sahi hai? repo public hai? Private repo ke liye git@github.com:USER/REPO.git + deploy key)"
+    fi
+  fi
   if [[ -d $GIT_SRC/.git ]]; then
     local origin
-    origin=$(gitc remote get-url origin 2>/dev/null || true)
-    [[ $origin == "$GIT_URL" ]] || die "$GIT_SRC ka origin '$origin' hai, aapne '$GIT_URL' diya. Galti se doosri repo na lage — check karo."
-    if ((DRY)); then drymsg "git fetch origin (in $GIT_SRC)"; else gitc fetch -q --prune --tags origin || die "git fetch fail (deploy key / internet)"; fi
+    origin=$(origin_url)
+    [[ $(repo_id "$origin") == "$(repo_id "$GIT_URL")" ]] || die "$GIT_SRC ka origin '$origin' hai, aapne '$GIT_URL' diya. Galti se doosri repo na lage — check karo."
+    info "$GIT_SRC pehle se isi repo ka clone hai — reuse (fetch + checkout)"
+    if [[ $origin != "$GIT_URL" ]]; then run gitc remote set-url origin "$GIT_URL"; fi
+    if ((DRY)); then drymsg "git fetch origin (in $GIT_SRC)"; else gitc fetch -q --prune --tags origin || die "git fetch fail (internet? private repo ho to deploy key)"; fi
   else
     if ((DRY)); then drymsg "git clone $GIT_URL → $GIT_SRC (deploy key se)"; GIT_COMMIT=dry-run; return 0; fi
     gitx clone -q ${GIT_BRANCH:+--branch "$GIT_BRANCH"} "$GIT_URL" "$GIT_SRC" || die "git clone fail"
