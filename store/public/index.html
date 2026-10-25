@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Get It Sasta — Premium tools, sasta price</title>
+<meta name="theme-color" content="#1B1240">
+<meta name="description" content="AI tools, video editing, design aur entertainment subscriptions sasti keemat par. UPI, card, netbanking — instant delivery.">
+<meta property="og:title" content="Get It Sasta">
+<meta property="og:description" content="Premium tools. Sasta price.">
+<meta property="og:type" content="website">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Hind:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/brand.css">
+</head>
+<body>
+<div class="announce"><div class="wrap" id="announce">Same-day delivery • UPI payment • WhatsApp support</div></div>
+<header class="bar"><div class="wrap">
+  <a class="logo" href="/" aria-label="Get It Sasta home"><img src="/favicon.svg" alt="" width="34" height="34"><span class="word">get it <b>sasta</b></span></a>
+  <nav aria-label="Main"><a href="/#shop" data-i18n="nav_products">Products</a><a href="/track" data-i18n="nav_track">Track order</a></nav>
+  <div class="bar-actions">
+    <a class="acct-btn" id="acctLink" href="/account" aria-label="Login or account"><span>Login</span></a>
+    <button class="cart-btn" id="openCart" aria-label="Open cart" data-i18n-aria="open_cart"><span data-i18n="cart">Cart</span><span class="n cart-count">0</span></button>
+  </div>
+</div></header>
+<section class="hero"><div class="hero-bg" aria-hidden="true"></div><div class="wrap">
+  <div class="hero-copy">
+    <p class="eyebrow-pill"><span class="dot"></span><span data-i18n="hero_eyebrow">Up to 25% below official prices · Same-day delivery</span></p>
+    <h1>Premium tools.<br><span class="hl">Sasta</span> price.</h1>
+    <p class="lead" data-i18n-intl="hero_lead_intl" data-i18n-in="hero_lead">AI, video editing, design and entertainment subscriptions in one place. Pay by UPI or crypto, same-day delivery right to your order page.</p>
+    <div class="cta">
+      <a class="btn btn-primary btn-lg btn-arrow" href="#shop"><span data-i18n="see_products">See products</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-ghost btn-lg" href="#how" data-i18n="how_btn">How it works</a>
+    </div>
+    <div class="trust">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span data-i18n-intl="trust_pay_intl" data-i18n-in="trust_pay">UPI payment</span></span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span data-i18n="trust_fast">Same-day delivery</span></span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span data-i18n="trust_support">Replacement support</span></span>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true"><div class="halo"></div><div class="tags-stage" id="heroTags">
+    <div class="swing s1"><span class="tag-off">−22%</span><div class="nm">CapCut Pro</div><div class="pr">₹469</div><div class="row"><span class="strike">₹599</span><span class="mono">1 mo</span></div></div>
+    <div class="swing s2"><span class="tag-off">−22%</span><div class="nm">ChatGPT Plus</div><div class="pr">₹1,559</div><div class="row"><span class="strike">₹1,999</span><span class="mono">1 mo</span></div></div>
+    <div class="swing s3"><span class="tag-off">−22%</span><div class="nm">Canva Pro</div><div class="pr">₹389</div><div class="row"><span class="strike">₹499</span><span class="mono">1 mo</span></div></div>
+  </div></div>
+</div></section>
+
+<div class="ticker" aria-hidden="true"><div class="track" id="ticker"></div></div>
+
+<main class="shop" id="shop"><div class="wrap">
+  <div class="shop-head">
+    <div><h2 data-i18n="shop_title">Everything, sasta</h2><p id="shopSub" data-i18n="loading_products">Loading products…</p></div>
+  </div>
+  <div class="filters">
+    <div class="chips" id="chips" role="toolbar" aria-label="Categories"></div>
+    <label class="search"><span class="sr">Search</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search karo… jaise CapCut" data-i18n-ph="search_ph" autocomplete="off">
+    </label>
+  </div>
+  <div class="grid" id="grid">
+    <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+  </div>
+</div></main>
+
+<section class="why"><div class="wrap">
+  <div class="sec-head"><p class="kicker" data-i18n="why_kicker">Why Get It Sasta</p><h2 data-i18n="why_title">Premium tools, without the premium price</h2></div>
+  <div class="why-grid">
+    <div class="why-card w1"><span class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span><strong data-i18n="w1_t">Real savings</strong><p data-i18n="w1_p">Every plan is priced below the official rate — you see exactly how much you save.</p></div>
+    <div class="why-card w2"><span class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><strong data-i18n="w2_t">Same-day delivery</strong><p data-i18n="w2_p">Details land on your private order page as soon as payment is verified.</p></div>
+    <div class="why-card w3"><span class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12.2 2.2 2.2 4.3-4.6"/></svg></span><strong data-i18n="w3_t">Warranty included</strong><p data-i18n="w3_p">If something stops working during your plan, we replace it or refund the rest.</p></div>
+    <div class="why-card w4"><span class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.8 9.2c-.6-.8-1.6-1.2-2.8-1.2-1.7 0-3 .9-3 2.2 0 3 6 1.6 6 4.6 0 1.3-1.3 2.2-3 2.2-1.3 0-2.4-.5-3-1.4M12 6v2m0 8v2"/></svg></span><strong data-i18n="w4_t">Pay your way</strong><p data-i18n="w4_p">UPI in India, or USDT / Binance Pay from anywhere in the world.</p></div>
+  </div>
+</div></section>
+
+<section class="how" id="how"><div class="wrap">
+  <div class="sec-head"><p class="kicker" data-i18n="how_kicker">3 simple steps</p><h2 data-i18n="how_title">How ordering works</h2></div>
+  <div class="steps">
+    <div class="step"><span class="k">1</span><strong data-i18n="s1_t">Add to cart</strong><p data-i18n="s1_p">Pick a product and plan, enter name, email and mobile to place the order.</p></div>
+    <div class="step"><span class="k">2</span><strong data-i18n="s2_t">Pay</strong><p data-i18n="s2_p">On the order page pay by UPI (India) or crypto — USDT / Binance Pay (worldwide).</p></div>
+    <div class="step"><span class="k">3</span><strong data-i18n="s3_t">Get delivery</strong><p data-i18n="s3_p">As soon as payment is verified, details appear on your order page. Keep the link.</p></div>
+  </div>
+  <div class="faq-wrap">
+  <div class="sec-head"><p class="kicker">FAQ</p><h2 data-i18n="faq_title">Questions, answered</h2><p class="muted" data-i18n="faq_p">Still stuck? Message us on WhatsApp — a real person replies.</p></div>
+  <div class="faq">
+    <details><summary data-i18n="faq1_q">How long does delivery take?</summary><p data-i18n="faq1_a">Most orders are delivered within 15 minutes to 6 hours after payment (9 am – 11 pm IST).</p></details>
+    <details><summary data-i18n="faq2_q">Where do I find the UTR / TxID?</summary><p data-i18n="faq2_a">UPI: open the payment in GPay / PhonePe / Paytm — the 12-digit "UPI Ref No". Crypto: the transaction hash in your wallet, or the Order ID in Binance Pay.</p></details>
+    <details><summary data-i18n="faq3_q">What if something does not work?</summary><p data-i18n="faq3_a">Message us on WhatsApp from the order page with your order ID. Replacement or refund within warranty.</p></details>
+  </div></div>
+</div></section>
+
+<section class="cta-band"><div class="wrap"><div class="cta-card">
+  <div><h2 data-i18n="cta_title">Start saving on your favourite tools</h2><p data-i18n="cta_p">Pick a plan, pay in a minute, get it the same day.</p></div>
+  <div class="cta-btns"><a class="btn btn-primary btn-lg" href="#shop" data-i18n="see_products">See products</a><a class="btn btn-wa-ghost btn-lg" id="ctaWa" href="#" target="_blank" rel="noopener" data-i18n="wa_chat">Chat on WhatsApp</a></div>
+</div></div></section>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="/"><img src="/favicon.svg" alt="" width="28" height="28"><span class="word">get it <b>sasta</b></span></a>
+  <nav><a href="/account" data-i18n="my_account">My account</a><a href="/track" data-i18n="nav_track">Track order</a><a href="/policies#refund" data-i18n="foot_refund">Refund policy</a><a href="/policies#terms" data-i18n="foot_terms">Terms</a><a href="/policies#privacy" data-i18n="foot_privacy">Privacy</a></nav>
+  <span>© <span data-year></span> getitsasta.com • <span data-support-email>support@getitsasta.com</span></span>
+</div></footer>
+<script src="/assets/common.js"></script>
+<script src="/assets/locale.js"></script>
+<script src="/assets/cart.js"></script>
+<script src="/assets/app.js"></script>
+<script src="/assets/newsletter.js"></script>
+<script src="/assets/chat.js"></script>
+</body>
+</html>

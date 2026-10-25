@@ -1,0 +1,14 @@
+{
+  "name": "getitsasta",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Get It Sasta — digital products store: customer accounts (OTP), BharatPe UPI + crypto via Get It Sasta Pay, auto-delivery, admin panel. Zero dependencies.",
+  "main": "server.js",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "reset-admin": "node --disable-warning=ExperimentalWarning src/reset-admin.js",
+    "backup": "node --disable-warning=ExperimentalWarning src/backup.js"
+  }
+}

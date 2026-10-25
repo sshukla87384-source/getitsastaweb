@@ -1,0 +1,12 @@
+# Secrets aur data kabhi GitHub par nahi
+.env
+.env.*
+!.env.example
+*.db
+*.db-*
+*.sqlite
+data/
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
